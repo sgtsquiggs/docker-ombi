@@ -1,0 +1,30 @@
+#!/usr/bin/with-contenv bash
+
+# link database file
+[[ ! -e /config/Ombi.sqlite ]] &&\
+    touch /config/Ombi.sqlite
+[[ -e /app/ombi/Ombi.sqlite && ! -L /app/ombi/Ombi.sqlite ]] &&\
+    rm /app/ombi/Ombi.sqlite
+[[ ! -L /app/ombi/Ombi.sqlite ]] &&\
+    ln -s /config/Ombi.sqlite /app/ombi/Ombi.sqlite
+
+# link log folder
+[[ ! -d /config/logs ]] &&\
+    mkdir -p /config/logs
+[[ -d /app/ombi/logs && ! -L /app/ombi/logs ]] &&\
+    rm -rf /app/ombi/logs
+[[ ! -L /app/ombi/logs ]] &&\
+    ln -s /config/logs /app/ombi/logs
+
+# link backup folder
+[[ ! -d /config/BackupSystem ]] &&\
+    mkdir -p /config/BackupSystem
+[[ -d /app/ombi/BackupSystem && ! -L /app/ombi/BackupSystem ]] &&\
+    rm -rf /app/ombi/BackupSystem
+[[ ! -L /app/BackupSystem ]] &&\
+    ln -s /config/BackupSystem opt/ombi/BackupSystem
+
+# permissions
+chown -R abc:abc \
+    /app \
+    /config
